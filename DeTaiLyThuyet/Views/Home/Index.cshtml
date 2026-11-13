@@ -1,0 +1,74 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gift Shop</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="banner">
+        <div class="slide hien" style="background:#fde4e6;">
+            <h1>Back to School</h1><p>Sổ tay, bút, dụng cụ học tập giá tốt</p>
+        </div>
+        <div class="slide" style="background:#e4eefd;">
+            <h1>Combo Văn phòng</h1><p>Mua theo combo tiết kiệm hơn</p>
+        </div>
+        <div class="slide" style="background:#e8f7e4;">
+            <h1>Quà lưu niệm</h1><p>Móc khóa, cốc sứ, hộp quà mini</p>
+        </div>
+        <div class="cham">
+            <span class="chamtron on"></span>
+            <span class="chamtron"></span>
+            <span class="chamtron"></span>
+        </div>
+    </div>
+
+    <div class="danhmuc">
+        <a class="dm" href="~/Product/SanPham?loai=so"><div class="dm-icon" style="background:#f4516c;">&#128211;</div>Sổ tay</a>
+        <a class="dm" href="~/Product/SanPham?loai=but"><div class="dm-icon" style="background:#3a7bd5;">&#9999;</div>Bút</a>
+        <a class="dm" href="~/Product/SanPham?loai=dungcu"><div class="dm-icon" style="background:#f5a623;">&#128207;</div>Dụng cụ</a>
+        <a class="dm" href="~/Product/SanPham?loai=qua"><div class="dm-icon" style="background:#e8505b;">&#127873;</div>Quà lưu niệm</a>
+        <a class="dm" href="~/Home/Combo"><div class="dm-icon" style="background:#2fb67c;">&#128717;</div>Combo</a>
+        <a class="dm" href="~/Product/SanPham"><div class="dm-icon" style="background:#7b61ff;">&#9776;</div>Tất cả</a>
+    </div>
+
+    <div class="flash">
+        <span class="flash-ten">FLASH SALE</span>
+        Kết thúc trong
+        <span class="gio" id="gio">00</span>:<span class="gio" id="phut">00</span>:<span class="gio" id="giay">00</span>
+    </div>
+
+    <div class="vung-sp">
+        <h2 class="tieude">Sản phẩm lẻ</h2>
+        <div class="luoi" id="ds-le"></div>
+
+        <h2 class="tieude">Combo</h2>
+        <div class="luoi" id="ds-combo"></div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="~/Scripts/js/main.js"></script>
+
+    <script>
+    SAN_PHAM = @Html.Raw(
+        Newtonsoft.Json.JsonConvert.SerializeObject(
+            ViewBag.SanPhamDB,
+            new Newtonsoft.Json.JsonSerializerSettings
+            {
+                StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeHtml
+            }
+        )
+    );
+    </script>
+
+    <script src="~/Scripts/js/trang-chu.js"></script>
+</body>
+</html>

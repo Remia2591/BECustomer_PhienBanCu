@@ -1,0 +1,58 @@
+﻿@model IEnumerable<DeTaiLyThuyet.Models.DonHang>
+
+@{
+    ViewBag.Title = "Quản lý đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý đơn hàng</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Mã đơn hàng</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Người nhận</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaDonHang</td>
+                    <td>
+                        @(item.TaiKhoan != null
+                        ? item.TaiKhoan.HoTen
+                        : "Không xác định")
+                    </td>
+                    <td>@item.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.TenNguoiNhan</td>
+                    <td>@item.TongTien.ToString("N0") đ</td>
+                    <td>@item.TrangThai</td>
+                    <td>
+                        @Html.ActionLink(
+                                 "Chi tiết",
+                                 "Details",
+                                 new { id = item.DonHangID }
+                             )
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">
+                    Chưa có đơn hàng nào.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

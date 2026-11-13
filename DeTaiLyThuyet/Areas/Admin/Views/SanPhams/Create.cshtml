@@ -1,0 +1,135 @@
+﻿@model DeTaiLyThuyet.Models.SanPham
+
+@{
+    ViewBag.Title = "Thêm sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Thêm sản phẩm</h2>
+
+@using (Html.BeginForm(
+    "Create",
+    "SanPhams",
+    FormMethod.Post,
+    new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Thông tin sản phẩm</h4>
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DanhMucID, "Danh mục",
+                     new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList(
+                         "DanhMucID",
+                         null,
+                         "-- Chọn danh mục --",
+                         new { @class = "form-control" })
+                @Html.ValidationMessageFor(
+                         model => model.DanhMucID,
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenSanPham, "Tên sản phẩm",
+                     new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(
+                         model => model.TenSanPham,
+                         new { @class = "form-control" })
+                @Html.ValidationMessageFor(
+                         model => model.TenSanPham,
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fileAnh" class="control-label col-md-2">Ảnh sản phẩm</label>
+            <div class="col-md-10">
+                <input type="file"
+                       id="fileAnh"
+                       name="fileAnh"
+                       accept=".jpg,.jpeg,.png,.gif"
+                       class="form-control" />
+                <span class="text-muted">Chọn ảnh JPG, JPEG, PNG hoặc GIF; tối đa 5 MB.</span>
+                @Html.ValidationMessage("fileAnh", "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gia, "Giá",
+                     new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(
+                         model => model.Gia,
+                         new { @class = "form-control", type = "number", step = "1000", min = "0" })
+                @Html.ValidationMessageFor(
+                         model => model.Gia,
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MoTa, "Mô tả",
+                     new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(
+                         model => model.MoTa,
+                         new { @class = "form-control", rows = "4" })
+                @Html.ValidationMessageFor(
+                         model => model.MoTa,
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SoLuongTon, "Số lượng tồn",
+                     new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(
+                         model => model.SoLuongTon,
+                         new { @class = "form-control", type = "number", min = "0" })
+                @Html.ValidationMessageFor(
+                         model => model.SoLuongTon,
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DangBan, "Đang bán",
+                     new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.DangBan)
+                @Html.ValidationMessageFor(
+                         model => model.DangBan,
+                         "",
+                         new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm sản phẩm"
+                       class="btn btn-primary" />
+                @Html.ActionLink("Quay lại danh sách", "Index", null,
+                         new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

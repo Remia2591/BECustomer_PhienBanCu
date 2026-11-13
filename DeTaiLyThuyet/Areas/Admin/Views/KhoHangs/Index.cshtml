@@ -1,0 +1,28 @@
+﻿@model DeTaiLyThuyet.Models.ViewModel.QuanLyKhoVM
+
+@{
+    ViewBag.Title = "Quản lý kho hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý kho hàng</h2>
+
+<h3>Danh sách hàng tồn</h3>
+@if (Model.HangTon != null && Model.HangTon.Any())
+{
+    @Html.Partial("_DanhSachSanPhamKhoPV", Model.HangTon)
+}
+else
+{
+    <p>Hiện không có sản phẩm còn hàng.</p>
+}
+
+<h3>Danh sách hàng cần nhập</h3>
+@if (Model.HangCanNhap != null && Model.HangCanNhap.Any())
+{
+    @Html.Partial("_DanhSachSanPhamKhoPV", Model.HangCanNhap)
+}
+else
+{
+    <p>Không có sản phẩm nào đang hết hàng.</p>
+}

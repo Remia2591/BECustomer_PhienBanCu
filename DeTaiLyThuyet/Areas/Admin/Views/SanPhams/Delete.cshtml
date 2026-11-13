@@ -1,0 +1,68 @@
+﻿@model DeTaiLyThuyet.Models.SanPham
+
+@{
+    ViewBag.Title = "Xóa sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Xóa sản phẩm</h2>
+
+<div class="alert alert-warning">
+    <strong>Lưu ý:</strong> Sản phẩm sẽ không được xóa nếu đang được tham chiếu
+    trong đơn hàng hoặc giỏ hàng.
+</div>
+
+<h4>Bạn có chắc muốn xóa sản phẩm này không?</h4>
+<hr />
+
+<dl class="dl-horizontal">
+    <dt>Tên sản phẩm</dt>
+    <dd>@Html.DisplayFor(model => model.TenSanPham)</dd>
+
+    <dt>Ảnh</dt>
+    <dd>
+        @if (!String.IsNullOrEmpty(Model.HinhAnh))
+        {
+            <img src="@Url.Content(Model.HinhAnh)"
+                 alt="@Model.TenSanPham"
+                 style="width:120px;height:120px;object-fit:cover;" />
+        }
+        else
+        {
+            <span>Chưa có ảnh</span>
+        }
+    </dd>
+
+    <dt>Giá</dt>
+    <dd>@Model.Gia.ToString("N0") đ</dd>
+
+    <dt>Mô tả</dt>
+    <dd>@Html.DisplayFor(model => model.MoTa)</dd>
+
+    <dt>Số lượng tồn</dt>
+    <dd>@Html.DisplayFor(model => model.SoLuongTon)</dd>
+
+    <dt>Trạng thái</dt>
+    <dd>@(Model.DangBan ? "Đang bán" : "Ngừng bán")</dd>
+
+    <dt>Danh mục</dt>
+    <dd>
+        @(Model.DanhMuc != null ? Model.DanhMuc.TenDanhMuc : "Chưa phân loại")
+    </dd>
+</dl>
+
+@using (Html.BeginForm(
+    "Delete",
+    "SanPhams",
+    new { id = Model.SanPhamID },
+    FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-danger">
+        Xóa sản phẩm
+    </button>
+
+    @Html.ActionLink("Quay lại danh sách", "Index", null,
+            new { @class = "btn btn-default" })
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="cdc8d59025184c1dbf43f66b87f84adb" Name="Diagram1">
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.DanhMuc" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.DonHang" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.DonHangChiTiet" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.GioHang" Width="1.5" PointX="5.875" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.GioHangChiTiet" Width="1.5" PointX="8.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.LienHe" Width="1.5" PointX="8.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.SanPham" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="db_ad03e2_giftshopdbModel.TaiKhoan" Width="1.5" PointX="0.875" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="db_ad03e2_giftshopdbModel.FK_SanPham_DanhMuc" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ad03e2_giftshopdbModel.FK_DonHang_TaiKhoan" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ad03e2_giftshopdbModel.FK_DonHangChiTiet_DonHang" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ad03e2_giftshopdbModel.FK_DonHangChiTiet_SanPham" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ad03e2_giftshopdbModel.FK_GioHang_TaiKhoan" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ad03e2_giftshopdbModel.FK_GioHangChiTiet_GioHang" ManuallyRouted="false" />
+        <AssociationConnector Association="db_ad03e2_giftshopdbModel.FK_GioHangChiTiet_SanPham" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

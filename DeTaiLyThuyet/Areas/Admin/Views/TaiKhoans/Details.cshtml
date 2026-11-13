@@ -1,0 +1,43 @@
+﻿@model DeTaiLyThuyet.Models.TaiKhoan
+
+@{
+    ViewBag.Title = "Chi tiết khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Chi tiết khách hàng</h2>
+
+<h4>Thông tin tài khoản</h4>
+<hr />
+
+<dl class="dl-horizontal">
+    <dt>Họ tên</dt>
+    <dd>@Model.HoTen</dd>
+
+    <dt>Email</dt>
+    <dd>@Model.Email</dd>
+
+    <dt>Số điện thoại</dt>
+    <dd>@Model.SoDienThoai</dd>
+
+    <dt>Địa chỉ</dt>
+    <dd>@Model.DiaChi</dd>
+
+    <dt>Ngày tạo tài khoản</dt>
+    <dd>@Model.NgayTao.ToString("dd/MM/yyyy")</dd>
+
+    <dt>Trạng thái</dt>
+    <dd>@(Model.DangHoatDong ? "Đang hoạt động" : "Ngừng hoạt động")</dd>
+</dl>
+
+<h3>Danh sách đơn hàng</h3>
+
+@Html.Partial(
+    "~/Areas/Admin/Views/Shared/_DanhSachDonHangPV.cshtml",
+    Model.DonHangs
+)
+
+<p>
+    @Html.ActionLink("Quay lại danh sách khách hàng", "Index", null,
+            new { @class = "btn btn-default" })
+</p>

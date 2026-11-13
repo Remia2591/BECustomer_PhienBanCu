@@ -1,0 +1,57 @@
+﻿@model DeTaiLyThuyet.Models.SanPham
+
+<div class="row">
+    <div class="col-md-5">
+        @if (!String.IsNullOrEmpty(Model.HinhAnh))
+        {
+            var duongDanAnh = Model.HinhAnh.StartsWith("/")
+                ? "~" + Model.HinhAnh
+                : "~/Content/images/" + Model.HinhAnh;
+
+            <img src="@Url.Content(duongDanAnh)"
+                 alt="@Model.TenSanPham"
+                 class="img-responsive"
+                 style="max-width:100%; max-height:400px; object-fit:contain;" />
+        }
+        else
+        {
+            <p>Chưa có ảnh sản phẩm.</p>
+        }
+    </div>
+
+    <div class="col-md-7">
+        <h2>@Model.TenSanPham</h2>
+
+        <p>
+            <strong>Danh mục:</strong>
+            @(Model.DanhMuc != null ? Model.DanhMuc.TenDanhMuc : "Chưa phân loại")
+        </p>
+
+        <p>
+            <strong>Giá:</strong>
+            @Model.Gia.ToString("N0") đ
+        </p>
+
+        <p>
+            <strong>Số lượng tồn:</strong>
+            @Model.SoLuongTon
+        </p>
+
+        <p>
+            <strong>Trạng thái:</strong>
+            @(Model.DangBan ? "Đang bán" : "Ngừng bán")
+        </p>
+
+        <p><strong>Mô tả:</strong></p>
+        <div>
+            @if (!String.IsNullOrWhiteSpace(Model.MoTa))
+            {
+                @Html.Raw(HttpUtility.HtmlEncode(Model.MoTa).Replace("\n", "<br />"))
+            }
+            else
+            {
+                <span>Chưa có mô tả.</span>
+            }
+        </div>
+    </div>
+</div>

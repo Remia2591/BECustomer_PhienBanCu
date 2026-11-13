@@ -1,0 +1,52 @@
+﻿@model IEnumerable<DeTaiLyThuyet.Models.TaiKhoan>
+
+@{
+    ViewBag.Title = "Quản lý khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý khách hàng</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>Số điện thoại</th>
+            <th>Ngày tạo</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.HoTen)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                    <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
+                    <td>@(item.DangHoatDong ? "Đang hoạt động" : "Ngừng hoạt động")</td>
+                    <td>
+                        @Html.ActionLink(
+                                 "Chi tiết",
+                                 "Details",
+                                 new { id = item.TaiKhoanID }
+                             )
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">
+                    Chưa có khách hàng nào.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

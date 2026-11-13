@@ -1,0 +1,56 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sản phẩm - Gift Shop</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="vung">
+        <h2 class="tieude" id="tieuDe">Tất cả sản phẩm</h2>
+        <div class="tab" id="tab"></div>
+        <div class="luoi" id="ds"></div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="~/Scripts/js/main.js"></script>
+    <script>
+        var loai = layThamSo("loai");
+        var q = layThamSo("q");
+
+        var loaiTab = [
+            { ma: "", ten: "Tất cả" },
+            { ma: "so", ten: "Sổ tay" },
+            { ma: "but", ten: "Bút" },
+            { ma: "dungcu", ten: "Dụng cụ" },
+            { ma: "qua", ten: "Quà lưu niệm" }
+        ];
+        var t = "";
+        for (var i = 0; i < loaiTab.length; i++) {
+            var on = ((loai || "") == loaiTab[i].ma && !q) ? ' class="on"' : '';
+            var link = loaiTab[i].ma == "" ? "@Url.Content("~/Product/SanPham")" : "@Url.Content("~/Product/SanPham")?loai=" + loaiTab[i].ma;
+            t += '<a href="' + link + '"' + on + '>' + loaiTab[i].ten + '</a>';
+        }
+        document.getElementById("tab").innerHTML = t;
+
+        var kq = [];
+        for (var j = 0; j < SAN_PHAM.length; j++) {
+            var s = SAN_PHAM[j];
+            if (s.loai == "combo") continue;
+            if (loai && s.loai != loai) continue;
+            if (q && s.ten.toLowerCase().indexOf(q.toLowerCase()) < 0) continue;
+            kq.push(s);
+        }
+        if (q) document.getElementById("tieuDe").innerText = 'Kết quả tìm: "' + q + '"';
+        veSP(kq, "ds");
+    </script>
+</body>
+</html>

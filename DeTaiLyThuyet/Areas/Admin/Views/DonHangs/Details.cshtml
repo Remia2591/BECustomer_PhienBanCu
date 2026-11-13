@@ -1,0 +1,110 @@
+﻿@model DeTaiLyThuyet.Models.DonHang
+
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .invoice {
+        max-width: 950px;
+        margin: 20px auto;
+        padding: 28px;
+        border: 1px solid #ddd;
+        background: #fff;
+    }
+
+    .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 16px;
+        margin-bottom: 20px;
+    }
+
+    .invoice-title {
+        margin: 0;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .invoice-info {
+        margin-bottom: 22px;
+    }
+
+    .invoice-total {
+        text-align: right;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 18px;
+    }
+
+    @@media print {
+        .no-print {
+            display: none;
+        }
+
+        .invoice {
+            max-width: none;
+            border: none;
+            margin: 0;
+        }
+    }
+</style>
+
+<div class="invoice">
+    <div class="invoice-header">
+        <div>
+            <h2 class="invoice-title">HÓA ĐƠN ĐƠN HÀNG</h2>
+            <p>Gift Shop</p>
+        </div>
+        <div>
+            <strong>Mã đơn:</strong> @Model.MaDonHang<br />
+            <strong>Ngày đặt:</strong> @Model.NgayDat.ToString("dd/MM/yyyy HH:mm")
+        </div>
+    </div>
+
+    <div class="row invoice-info">
+        <div class="col-md-6">
+            <h4>Thông tin khách hàng</h4>
+            <p>
+                <strong>Tài khoản:</strong>
+                @(Model.TaiKhoan != null ? Model.TaiKhoan.HoTen : "Không xác định")
+            </p>
+            <p>
+                <strong>Email:</strong>
+                @(Model.TaiKhoan != null ? Model.TaiKhoan.Email : "Không có")
+            </p>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Thông tin nhận hàng</h4>
+            <p><strong>Người nhận:</strong> @Model.TenNguoiNhan</p>
+            <p><strong>Số điện thoại:</strong> @Model.SoDienThoai</p>
+            <p><strong>Địa chỉ:</strong> @Model.DiaChiGiaoHang</p>
+            <p><strong>Thanh toán:</strong> @Model.PhuongThucThanhToan</p>
+            <p><strong>Trạng thái:</strong> @Model.TrangThai</p>
+        </div>
+    </div>
+
+    <h4>Chi tiết sản phẩm</h4>
+
+    @Html.Partial(
+            "~/Areas/Admin/Views/Shared/_DanhSachChiTietDonHangPV.cshtml",
+            Model.DonHangChiTiets
+        )
+
+    <div class="invoice-total">
+        Tổng tiền: @Model.TongTien.ToString("N0") đ
+    </div>
+</div>
+
+<p class="no-print">
+    @Html.ActionLink("Quay lại danh sách đơn hàng", "Index", null,
+            new { @class = "btn btn-default" })
+    <button type="button" class="btn btn-primary"
+            onclick="window.print();">
+        In hóa đơn
+    </button>
+</p>

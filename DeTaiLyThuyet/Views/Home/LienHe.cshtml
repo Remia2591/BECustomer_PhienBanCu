@@ -1,0 +1,53 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liên hệ - Gift Shop</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="vung">
+        <h2 class="tieude">Liên hệ</h2>
+        <div class="hop">
+            <p>Địa chỉ: Thành phố Hồ Chí Minh<br>Điện thoại: 0123 456 789<br>Email: giftshop@example.com</p>
+        </div>
+
+        <div class="hop">
+            <h2>Gửi tin nhắn</h2>
+            <label>Họ tên</label>
+            <input type="text" id="lhTen" />
+            <label>Email</label>
+            <input type="text" id="lhEmail" />
+            <label>Nội dung</label>
+            <textarea id="lhNoiDung" rows="4"></textarea>
+            <button class="nut" onclick="guiLienHe()">Gửi</button>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="~/Scripts/js/main.js"></script>
+    <script>
+        function guiLienHe() {
+            var ten = document.getElementById("lhTen").value.trim();
+            var email = document.getElementById("lhEmail").value.trim();
+            var nd = document.getElementById("lhNoiDung").value.trim();
+            if (ten == "" || email == "" || nd == "") { alert("Vui lòng nhập đủ thông tin"); return; }
+            var ds = doc("lienHe", []);
+            ds.push({ ten: ten, email: email, noiDung: nd });
+            ghi("lienHe", ds);
+            alert("Đã gửi, cảm ơn bạn!");
+            document.getElementById("lhTen").value = "";
+            document.getElementById("lhEmail").value = "";
+            document.getElementById("lhNoiDung").value = "";
+        }
+    </script>
+</body>
+</html>

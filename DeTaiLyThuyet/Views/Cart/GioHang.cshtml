@@ -1,0 +1,82 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giỏ hàng - Gift Shop</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="vung">
+        <h2 class="tieude">Giỏ hàng</h2>
+        <div id="noiDung"></div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="~/Scripts/js/main.js"></script>
+
+    <script>
+    SAN_PHAM = @Html.Raw(
+        Newtonsoft.Json.JsonConvert.SerializeObject(
+            ViewBag.SanPhamDB,
+            new Newtonsoft.Json.JsonSerializerSettings
+            {
+                StringEscapeHandling =
+                    Newtonsoft.Json.StringEscapeHandling.EscapeHtml
+            }
+        )
+    );
+    </script>
+    <script>
+        function veGio() {
+            var g = layGio();
+            if (g.length == 0) {
+                document.getElementById("noiDung").innerHTML =
+                    '<p>Giỏ hàng trống.</p><a class="nut" href="@Url.Action("SanPham", "Product")>Mua sắm ngay</a>';
+                return;
+            }
+            var tong = 0;
+            var h = '<table class="bang"><tr><th>Sản phẩm</th><th>Đơn giá</th><th>Số lượng</th><th>Thành tiền</th><th></th></tr>';
+            for (var i = 0; i < g.length; i++) {
+                var s = timSP(g[i].ma);
+                var tt = s.gia * g[i].sl;
+                tong += tt;
+                h += '<tr><td><img class="anh-nho" src="@Url.Content("~/Content/images/")' + s.hinh + '" /> ' + s.ten + '</td>' +
+                    '<td>' + dinhDang(s.gia) + '</td>' +
+                    '<td><button onclick="doiSL(' + i + ',-1)">-</button> ' + g[i].sl + ' <button onclick="doiSL(' + i + ',1)">+</button></td>' +
+                    '<td>' + dinhDang(tt) + '</td>' +
+                    '<td><button onclick="xoaSP(' + i + ')">Xóa</button></td></tr>';
+            }
+            h += '</table><div class="tong">Tổng cộng: ' + dinhDang(tong) + '</div>' +
+                '<a class="nut" href="@Url.Action("ThanhToan", "Order")">Thanh toán</a>';
+            document.getElementById("noiDung").innerHTML = h;
+        }
+
+        function doiSL(i, d) {
+            var g = layGio();
+            g[i].sl += d;
+            if (g[i].sl < 1) g[i].sl = 1;
+            ghi("gioHang", g);
+            veGio();
+            capNhatDem();
+        }
+
+        function xoaSP(i) {
+            var g = layGio();
+            g.splice(i, 1);
+            ghi("gioHang", g);
+            veGio();
+            capNhatDem();
+        }
+
+        veGio();
+    </script>
+</body>
+</html>

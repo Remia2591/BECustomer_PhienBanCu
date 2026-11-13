@@ -1,0 +1,74 @@
+﻿@model DeTaiLyThuyet.Models.SanPham
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết - Gift Shop</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="vung">
+        <div id="chiTiet"></div>
+        <h2 class="tieude">Sản phẩm cùng loại</h2>
+        <div class="luoi" id="lienQuan"></div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="~/Scripts/js/main.js"></script>
+    <script>
+        var ma = layThamSo("ma");
+        var s = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(
+    new
+    {
+        ma = Model.SanPhamID,
+        ten = Model.TenSanPham,
+        hinh = Model.HinhAnh,
+        gia = Model.Gia,
+        loai = Model.DanhMuc.MaLoai,
+        mota = Model.MoTa
+    },
+    new Newtonsoft.Json.JsonSerializerSettings
+    {
+        StringEscapeHandling =
+            Newtonsoft.Json.StringEscapeHandling.EscapeHtml
+    }
+));
+
+        if (!s) {
+            document.getElementById("chiTiet").innerHTML = "<p>Không tìm thấy sản phẩm.</p>";
+        } else {
+            document.title = s.ten + " - Gift Shop";
+            document.getElementById("chiTiet").innerHTML =
+                '<div class="chitiet">' +
+                '<img src="@Url.Content("~/Content/images/")' + s.hinh + '" alt="' + s.ten + '" />' +
+                '<div class="chitiet-tt">' +
+                '<h1>' + s.ten + '</h1>' +
+                '<div class="gia-lon">' + dinhDang(s.gia) + '</div>' +
+                '<p>' + s.mota + '</p>' +
+                '<input type="number" id="soLuong" class="o-sl" value="1" min="1" />' +
+                '<button class="nut" onclick="themTuChiTiet()">Thêm vào giỏ</button>' +
+                '</div></div>';
+
+            var lq = [];
+            for (var i = 0; i < SAN_PHAM.length; i++) {
+                if (SAN_PHAM[i].loai == s.loai && SAN_PHAM[i].ma != s.ma) lq.push(SAN_PHAM[i]);
+            }
+            veSP(lq, "lienQuan");
+        }
+
+        function themTuChiTiet() {
+            var sl = parseInt(document.getElementById("soLuong").value);
+            if (isNaN(sl) || sl < 1) sl = 1;
+            themGio(s.ma, sl);
+        }
+    </script>
+</body>
+</html>

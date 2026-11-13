@@ -1,0 +1,57 @@
+﻿@model DeTaiLyThuyet.Models.DanhMuc
+
+@{
+    ViewBag.Title = "Chi tiết danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Chi tiết danh mục</h2>
+
+<div>
+    <h4>Thông tin danh mục</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Mã loại</dt>
+        <dd>
+            @Html.DisplayFor(model => model.MaLoai)
+        </dd>
+
+        <dt>
+            Tên danh mục
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenDanhMuc)
+        </dd>
+
+    </dl>
+</div>
+
+<h3>Sản phẩm thuộc danh mục</h3>
+@if (Model.SanPhams != null && Model.SanPhams.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sanPham in Model.SanPhams)
+            {
+                <tr>
+                    <td>@sanPham.TenSanPham</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Danh mục này chưa có sản phẩm.</p>
+}
+
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.DanhMucID }) |
+    @Html.ActionLink("Quay lại danh sách", "Index")
+</p>

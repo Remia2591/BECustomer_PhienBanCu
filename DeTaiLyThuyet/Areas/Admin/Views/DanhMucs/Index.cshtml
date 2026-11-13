@@ -1,0 +1,43 @@
+﻿@model IEnumerable<DeTaiLyThuyet.Models.ViewModel.DanhMucIndexVM>
+
+@{
+    ViewBag.Title = "Quản lý danh mục";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý danh mục</h2>
+
+<p>
+    @Html.ActionLink("Tạo danh mục mới", "Create", null,
+        new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MaLoai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenDanhMuc)
+            </th>
+            <th>Số lượng sản phẩm</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.MaLoai)</td>
+                <td>@Html.DisplayFor(modelItem => item.TenDanhMuc)</td>
+                <td>@item.SoLuongSanPham</td>
+                <td>
+                    @Html.ActionLink("Sửa", "Edit", new { id = item.DanhMucID }) |
+                    @Html.ActionLink("Chi tiết", "Details", new { id = item.DanhMucID }) |
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.DanhMucID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

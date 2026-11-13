@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DeTaiLyThuyet.Models.DonHang>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Mã đơn hàng</th>
+            <th>Ngày đặt</th>
+            <th>Người nhận</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var donHang in Model)
+            {
+                <tr>
+                    <td>@donHang.MaDonHang</td>
+                    <td>@donHang.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@donHang.TenNguoiNhan</td>
+                    <td>@donHang.TongTien.ToString("N0") đ</td>
+                    <td>@donHang.TrangThai</td>
+                    <td>
+                        @Html.ActionLink(
+                                 "Chi tiết đơn",
+                                 "Details",
+                                 "DonHangs",
+                                 new { area = "Admin", id = donHang.DonHangID },
+                                 null
+                             )
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">
+                    Khách hàng chưa có đơn hàng.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

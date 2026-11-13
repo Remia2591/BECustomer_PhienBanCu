@@ -1,0 +1,44 @@
+﻿@model IEnumerable<DeTaiLyThuyet.Models.SanPham>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Ảnh</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng tồn</th>
+            <th>Chủng loại</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!String.IsNullOrEmpty(item.HinhAnh))
+                    {
+                        var duongDanAnh = item.HinhAnh.StartsWith("/")
+                            ? "~" + item.HinhAnh
+                            : "~/Content/images/" + item.HinhAnh;
+
+                        <img src="@Url.Content(duongDanAnh)"
+                             alt="@item.TenSanPham"
+                             style="width:70px;height:70px;object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <span>Chưa có ảnh</span>
+                    }
+                </td>
+                <td>@item.TenSanPham</td>
+                <td>@item.Gia.ToString("N0") đ</td>
+                <td>@item.SoLuongTon</td>
+                <td>
+                    @(item.DanhMuc != null
+                    ? item.DanhMuc.TenDanhMuc
+                    : "Chưa phân loại")
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

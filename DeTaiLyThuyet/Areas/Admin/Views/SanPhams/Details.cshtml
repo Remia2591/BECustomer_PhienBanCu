@@ -1,0 +1,18 @@
+﻿@model DeTaiLyThuyet.Models.SanPham
+
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Chi tiết sản phẩm</h2>
+<hr />
+
+@Html.Partial("~/Views/Product/_ProductDetailsPV.cshtml", Model)
+
+<p class="mt-3">
+    @Html.ActionLink("Sửa sản phẩm", "Edit", new { id = Model.SanPhamID },
+                new { @class = "btn btn-primary" })
+    @Html.ActionLink("Quay lại danh sách", "Index", null,
+                new { @class = "btn btn-default" })
+</p>

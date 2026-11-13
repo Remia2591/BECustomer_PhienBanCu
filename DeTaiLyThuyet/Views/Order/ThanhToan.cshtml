@@ -1,0 +1,129 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thanh toán - Gift Shop</title>
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="vung">
+        <h2 class="tieude">Thanh toán</h2>
+        <div id="tomTat"></div>
+
+        <div class="hop">
+            @Html.AntiForgeryToken()
+            <h2>Thông tin giao hàng</h2>
+            <label>Họ tên</label>
+            <input type="text" id="ten" />
+            <label>Số điện thoại</label>
+            <input type="text" id="sdt" />
+            <label>Địa chỉ</label>
+            <input type="text" id="diaChi" />
+            <label>Phương thức thanh toán</label>
+            <select id="ptt">
+                <option>Thanh toán khi nhận hàng</option>
+                <option>Chuyển khoản ngân hàng</option>
+            </select>
+            <button class="nut" onclick="datHang()">Đặt hàng</button>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="~/Scripts/js/main.js"></script>
+    <script>
+
+        var g = layGio();
+        var tong = 0;
+        var h = '<table class="bang"><tr><th>Sản phẩm</th><th>Số lượng</th><th>Thành tiền</th></tr>';
+        for (var i = 0; i < g.length; i++) {
+            var s = timSP(g[i].ma);
+            tong += s.gia * g[i].sl;
+            h += '<tr><td>' + s.ten + '</td><td>' + g[i].sl + '</td><td>' + dinhDang(s.gia * g[i].sl) + '</td></tr>';
+        }
+        h += '</table><div class="tong">Tổng cộng: ' + dinhDang(tong) + '</div>';
+        if (g.length == 0) h = '<p>Giỏ hàng trống.</p>';
+        document.getElementById("tomTat").innerHTML = h;
+
+        async function datHang() {
+    var gio = layGio();
+
+    if (gio.length === 0) {
+        alert("Giỏ hàng trống!");
+        return;
+    }
+
+    var ten = document.getElementById("ten").value.trim();
+    var sdt = document.getElementById("sdt").value.trim();
+    var diaChi = document.getElementById("diaChi").value.trim();
+    var ptt = document.getElementById("ptt").value;
+
+    if (!ten || !sdt || !diaChi) {
+        alert("Vui lòng nhập đầy đủ thông tin giao hàng.");
+        return;
+    }
+
+    var tokenInput = document.querySelector(
+        'input[name="__RequestVerificationToken"]'
+    );
+
+    if (!tokenInput) {
+        alert("Không tìm thấy mã bảo mật.");
+        return;
+    }
+
+    var nutDatHang = document.querySelector(
+        'button[onclick="datHang()"]'
+    );
+
+    if (nutDatHang) nutDatHang.disabled = true;
+
+    try {
+        var response = await fetch(
+            '@Url.Action("XuLyDatHang", "Order")',
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    ten: ten,
+                    sdt: sdt,
+                    diaChi: diaChi,
+                    ptt: ptt,
+                    gioHangJson: JSON.stringify(gio),
+                    __RequestVerificationToken: tokenInput.value
+                })
+            }
+        );
+
+        if (!response.ok) {
+            alert("Đặt hàng thất bại. Mã lỗi: " + response.status);
+            return;
+        }
+
+        var result = await response.json();
+
+        alert(result.message);
+
+        if (result.success) {
+            localStorage.removeItem("gioHang");
+            window.location.href = result.redirectUrl;
+        }
+    } catch (error) {
+        alert("Không thể kết nối đến máy chủ.");
+        console.error(error);
+    } finally {
+        if (nutDatHang) nutDatHang.disabled = false;
+    }
+}
+    </script>
+</body>
+</html>
